@@ -4,18 +4,16 @@ const Expense = require('../models/details');
 exports.AddDetails = async (req,res,next)=>{
     try {
       
-      const amount = req.body.amount;
-      const category = req.body.category;
-      const description = req.body.description;
+      const sellingprice = req.body.sellingprice;
+      const productname = req.body.productname;
       
   
-      if (!amount) {
+      if (!sellingprice) {
           throw new Error('Amount is mandatory !')
       }
       const data = await Expense.create({
-          amount : amount,
-          category : category,
-          description : description
+          sellingprice : sellingprice,
+          productname : productname
       })
   
       res.status(201).json({ newExoenseDetail: data });
@@ -48,26 +46,4 @@ exports.deleteDetails = async (req, res, next) => {
             console.log(err);
             res.status(500).json({error : err})
         }
-}
-exports.editDetails = async (req, res, next) => {
-    try{
-        
-        const updatedamount = req.body.amount;
-        const updateddescription = req.body.description;
-        const updatedcategory = req.body.category;
-        const id = req.params.id;
-        console.log(id);
-        let user = await Expense.update(
-            {
-                amount : updatedamount,
-            category:updatedcategory,
-            description:updateddescription
-            },
-                {where:{id:id}})
-                console.log(user);
-                res.status(201).json({user}); 
-    }catch(err){
-        console.log(err);
-        res.status(500).json({error : err})
-    }
 }
